@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>توليب للأمن والحراسات</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{--bg:#f4f1f8;--card:#fff;--tx:#1d1530;--mut:#6b6280;--pri:#7b2cbf;--pri2:#e0457b;--bd:#e6e0f0;--ok:#1f9d6b;--warn:#e08a1e;--bad:#d64545;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15101f;--card:#211a30;--tx:#f2eefb;--mut:#a79fba;--bd:#352b4a}}
+:root[data-theme="dark"]{--bg:#15101f;--card:#211a30;--tx:#f2eefb;--mut:#a79fba;--bd:#352b4a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Tahoma,"Segoe UI",Arial,sans-serif;min-height:100vh}
+.top{display:flex;justify-content:space-between;align-items:center;padding:14px 16px}
+.brand{font-weight:800;font-size:15px;color:var(--pri)}
+.sup{background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;border:0;border-radius:12px;padding:9px 14px;font:inherit;font-weight:700;cursor:pointer}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 30px}
+.hero{text-align:center;padding:10px 0 18px}
+.logo{width:76px;height:76px;border-radius:24px;margin:0 auto 10px;background:linear-gradient(135deg,var(--pri),var(--pri2));display:grid;place-items:center;font-size:40px;box-shadow:0 10px 30px #7b2cbf55}
+h1{margin:0;font-size:22px}.hero p{margin:4px 0 0;color:var(--mut);font-size:13px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:16px;margin-bottom:14px}
+input,select,textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit;margin-bottom:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.act{border:0;border-radius:16px;padding:18px 8px;color:#fff;font:inherit;font-weight:800;font-size:15px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px}
+.act span{font-size:26px}
+.a1{background:linear-gradient(135deg,#1f9d6b,#32c48d)}.a2{background:linear-gradient(135deg,#7b2cbf,#a35be0)}
+.a3{background:linear-gradient(135deg,#e08a1e,#f2b04c)}.a4{background:linear-gradient(135deg,#2a7de1,#55a6f5)}
+.btn{background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;border:0;border-radius:12px;padding:12px 16px;font:inherit;font-weight:700;cursor:pointer}
+.btn.g{background:var(--bg);color:var(--tx);border:1px solid var(--bd)}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:12px 18px;border-radius:14px;font-weight:700;display:none;z-index:50;max-width:90%;text-align:center}
+.modal{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;padding:20px;z-index:40}
+.modal .card{width:100%;max-width:380px;margin:0}
+#room{display:none;max-width:980px;margin:0 auto;padding:0 14px 30px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:6px 0 12px}
+.tab{white-space:nowrap;padding:10px 16px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:inherit;font-weight:700;cursor:pointer}
+.tab.on{background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;border-color:transparent}
+.sc{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
+th,td{padding:9px 8px;text-align:right;border-bottom:1px solid var(--bd)}
+th{background:var(--bg);color:var(--mut);font-size:12px}
+.pill{padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;color:#fff;display:inline-block}
+h3{margin:14px 0 8px}
+.idimg{width:56px;height:38px;object-fit:cover;border-radius:6px;cursor:pointer}
+#report{background:#fff;color:#111;padding:28px;border-radius:12px;direction:rtl}
+#report table{min-width:0;font-size:12px}#report th{background:#efe8f7;color:#333}#report td,#report th{border:1px solid #ccc}
+.sig{margin-top:40px;text-align:left;font-weight:800}
+</style>
+</head>
+<body>
+<div id="home">
+ <div class="top"><div class="brand">🌷 توليب</div><button class="sup" onclick="openLogin()">👤 المشرف</button></div>
+ <div class="wrap">
+  <div class="hero"><div class="logo">🛡️</div><h1>توليب للأمن والحراسات</h1><p>نظام إدارة الورديات والأفراد</p></div>
+  <div class="card">
+   <input id="n" placeholder="الاسم" autocomplete="off">
+   <input id="c" placeholder="الكود" inputmode="numeric" autocomplete="off">
+   <div class="grid">
+    <button class="act a1" onclick="act('استلام الوردية')"><span>✅</span>استلام الوردية</button>
+    <button class="act a2" onclick="act('تسليم الوردية')"><span>🔄</span>تسليم الوردية</button>
+    <button class="act a3" onclick="act('نزول إجازة')"><span>🏖️</span>نزول إجازة</button>
+    <button class="act a4" onclick="act('العودة من إجازة')"><span>↩️</span>العودة من إجازة</button>
+   </div>
+  </div>
+  <div class="card"><b>📝 الشكاوى والمقترحات</b><br><br>
+   <textarea id="cm" rows="3" placeholder="اكتب شكواك هنا..."></textarea>
+   <button class="btn" style="width:100%" onclick="sendCm()">إرسال الشكوى</button></div>
+ </div>
+</div>
+
+<div class="modal" id="lg"><div class="card"><h3 style="margin-top:0">🔐 دخول المشرف</h3>
+ <input id="em" type="text" placeholder="البريد الإلكتروني" autocomplete="off">
+ <input id="pw" type="password" placeholder="كلمة المرور" autocomplete="off">
+ <div class="grid"><button class="btn" onclick="login()">دخول</button><button class="btn g" onclick="lg.style.display='none'">إلغاء</button></div></div></div>
+
+<div id="room">
+ <div class="top" style="padding-inline:0"><div class="brand">🌷 غرفة المشرف</div><button class="sup" onclick="logout()">خروج</button></div>
+ <div class="tabs" id="tabs"></div>
+ <div id="pane"></div>
+</div>
+<div class="toast" id="t"></div>
+
+<script>
+const H_EM="66ab7523ffa4cb302b3f3f9bbfd9f536c1f7d2f500cb24ce7633c8e5d20ed08b",H_PW="f96b10b63a7566f6e097679811c0a21b408ddb6a1b44963eea5bc2d4a507f577";
+const $=id=>document.getElementById(id);
+let DB={emps:[],logs:[],cms:[]};
+try{const s=localStorage.getItem("tulip");if(s)DB=JSON.parse(s)}catch(e){}
+(async()=>{if(DB.emps.length||DB.logs.length||DB.cms.length)return;try{const f=async n=>(await fetch("data/"+n+".json")).json();DB={emps:await f("employees"),logs:await f("logs"),cms:await f("complaints")}}catch(e){}})();
+const save=()=>{try{localStorage.setItem("tulip",JSON.stringify(DB))}catch(e){toast("تعذر الحفظ (الصورة كبيرة؟)")}};
+function toast(m){const t=$("t");t.textContent=m;t.style.display="block";setTimeout(()=>t.style.display="none",2600)}
+async function sha(s){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+function openLogin(){$("lg").style.display="flex"}
+async function login(){
+ try{if(await sha($("em").value.trim().toLowerCase())===H_EM&&await sha($("pw").value)===H_PW){
+  $("lg").style.display="none";$("home").style.display="none";$("room").style.display="block";$("em").value=$("pw").value="";tab(0);return}}catch(e){}
+ toast("بيانات الدخول غير صحيحة")}
+function logout(){$("room").style.display="none";$("home").style.display="block"}
+const fmtD=d=>new Date(d).toLocaleDateString("ar-EG"),fmtT=d=>new Date(d).toLocaleTimeString("ar-EG",{hour:"2-digit",minute:"2-digit"});
+function act(type){
+ const name=$("n").value.trim(),code=$("c").value.trim();
+ if(!name||!code)return toast("اكتب الاسم والكود أولاً");
+ const e=DB.emps.find(x=>x.code===code);
+ const now=Date.now(),h=new Date(now).getHours();
+ DB.logs.push({name:e?e.name:name,code,type,ts:now,shift:(h>=6&&h<18)?"نهاري":"ليلي"});
+ save();$("n").value=$("c").value="";toast("✔ تم تسجيل: "+type)}
+function sendCm(){const v=$("cm").value.trim();if(!v)return toast("اكتب الشكوى أولاً");
+ DB.cms.push({txt:v,ts:Date.now()});save();$("cm").value="";toast("تم إرسال الشكوى")}
+
+function stats(code){
+ const L=DB.logs.filter(l=>l.code===code).sort((a,b)=>a.ts-b.ts);
+ let hrs=0,start=null,days=new Set(),last=null;
+ L.forEach(l=>{last=l;
+  if(l.type==="استلام الوردية"){start=l.ts;days.add(new Date(l.ts).toDateString())}
+  if(l.type==="تسليم الوردية"&&start){hrs+=(l.ts-start)/36e5;start=null}});
+ if(start)hrs+=(Date.now()-start)/36e5;
+ return{last,hrs:hrs.toFixed(1),days:days.size}}
+const stMap={"استلام الوردية":["على رأس العمل","var(--ok)"],"تسليم الوردية":["سلّم الوردية","var(--mut)"],"نزول إجازة":["في إجازة","var(--warn)"],"العودة من إجازة":["عاد من الإجازة","#2a7de1"]};
+function people(){const m=new Map();DB.emps.forEach(e=>m.set(e.code,e));
+ DB.logs.forEach(l=>{if(!m.has(l.code))m.set(l.code,{name:l.name,code:l.code,sup:"-",site:"-"})});return[...m.values()]}
+function shiftTable(sh){
+ const rows=people().map(p=>({p,s:stats(p.code)})).filter(r=>r.s.last&&r.s.last.shift===sh);
+ if(!rows.length)return'<p style="color:var(--mut)">لا توجد سجلات</p>';
+ return'<div class="sc"><table><tr><th>الاسم</th><th>المشرف</th><th>الحالة</th><th>الموقع</th><th>ساعات العمل</th><th>الوقت</th><th>التاريخ</th><th>أيام العمل</th></tr>'+
+ rows.map(({p,s})=>{const[st,c]=stMap[s.last.type];return`<tr><td>${esc(p.name)}</td><td>${esc(p.sup||"-")}</td><td><span class="pill" style="background:${c}">${st}</span></td><td>${esc(p.site||"-")}</td><td>${s.hrs}</td><td>${fmtT(s.last.ts)}</td><td>${fmtD(s.last.ts)}</td><td>${s.days}</td></tr>`}).join("")+'</table></div>'}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+const TABS=["الورديات","بيانات الموظفين","الشكاوى","التقرير"];
+function tab(i){
+ $("tabs").innerHTML=TABS.map((t,j)=>`<button class="tab ${i==j?"on":""}" onclick="tab(${j})">${t}</button>`).join("");
+ const P=$("pane");
+ if(i==0)P.innerHTML=`<div class="card"><h3 style="margin-top:0">☀️ الوردية النهارية</h3>${shiftTable("نهاري")}</div><div class="card"><h3 style="margin-top:0">🌙 الوردية الليلية</h3>${shiftTable("ليلي")}</div>`;
+ if(i==1)P.innerHTML=`<div class="card"><h3 style="margin-top:0">إضافة موظف</h3>
+  <input id="en" placeholder="الاسم"><input id="ec" placeholder="الكود"><input id="ep" placeholder="رقم التليفون" inputmode="tel"><input id="eid" placeholder="الرقم القومي" inputmode="numeric">
+  <input id="es" placeholder="المشرف المسؤول"><input id="el" placeholder="موقع العمل">
+  <label style="font-size:13px;color:var(--mut)">صورة البطاقة الشخصية</label><input id="ei" type="file" accept="image/*">
+  <button class="btn" onclick="addEmp()">حفظ الموظف</button></div>
+  <div class="card sc"><table><tr><th>الاسم</th><th>الكود</th><th>التليفون</th><th>الرقم القومي</th><th>البطاقة</th><th></th></tr>`+
+  (DB.emps.map((e,k)=>`<tr><td>${esc(e.name)}</td><td>${esc(e.code)}</td><td>${esc(e.phone)}</td><td>${esc(e.nid)}</td><td>${e.img?`<img class="idimg" src="${e.img}" onclick="window.open(this.src)">`:"-"}</td><td><button class="btn g" onclick="delEmp(${k})">حذف</button></td></tr>`).join("")||'<tr><td colspan=6>لا يوجد موظفون</td></tr>')+`</table></div>`;
+ if(i==2)P.innerHTML='<div class="card">'+(DB.cms.slice().reverse().map(c=>`<p style="border-bottom:1px solid var(--bd);padding-bottom:8px">${esc(c.txt)}<br><small style="color:var(--mut)">${fmtD(c.ts)} - ${fmtT(c.ts)}</small></p>`).join("")||"لا توجد شكاوى")+'</div>';
+ if(i==3){
+  const rows=people().map(p=>({p,s:stats(p.code)}));
+  P.innerHTML=`<div class="card"><div class="grid"><button class="btn" onclick="pdf()">⬇️ حفظ التقرير PDF</button><button class="btn g" onclick="window.print()">🖨️ طباعة</button></div><div class="grid" style="margin-top:10px"><button class="btn g" onclick="backup()">💾 تصدير البيانات (data)</button><button class="btn g" onclick="document.getElementById('imp').click()">📂 استيراد البيانات</button></div><input id="imp" type="file" accept=".json" style="display:none" onchange="restore(this)"></div>
+  <div id="report"><div style="text-align:center"><h2 style="margin:0;color:#7b2cbf">توليب للأمن والحراسات</h2><p>تقرير الورديات والحضور — ${fmtD(Date.now())}</p></div>
+  <table><tr><th>الاسم</th><th>الكود</th><th>المشرف</th><th>الموقع</th><th>آخر حالة</th><th>الوردية</th><th>ساعات العمل</th><th>أيام العمل</th></tr>`+
+  (rows.map(({p,s})=>`<tr><td>${esc(p.name)}</td><td>${esc(p.code)}</td><td>${esc(p.sup||"-")}</td><td>${esc(p.site||"-")}</td><td>${s.last?stMap[s.last.type][0]:"-"}</td><td>${s.last?s.last.shift:"-"}</td><td>${s.hrs}</td><td>${s.days}</td></tr>`).join("")||'<tr><td colspan=8>لا توجد بيانات</td></tr>')+
+  `</table><p>عدد الشكاوى: ${DB.cms.length}</p><div class="sig">الإمضاء<br>العقيد / كامل سمير</div></div>`}}
+function dl(n,o){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(o,null,1)],{type:"application/json"}));a.download=n;a.click()}
+function backup(){dl("employees.json",DB.emps);dl("logs.json",DB.logs);dl("complaints.json",DB.cms);toast("ضع الملفات داخل فولدر data")}
+function restore(i){const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result),n=f.name;if(n.startsWith("employees"))DB.emps=o;else if(n.startsWith("logs"))DB.logs=o;else if(n.startsWith("complaints"))DB.cms=o;else return toast("اسم الملف غير معروف");save();tab(3);toast("تم الاستيراد")}catch(e){toast("ملف غير صالح")}};r.readAsText(f)}
+function addEmp(){
+ const g=id=>$(id).value.trim(),e={name:g("en"),code:g("ec"),phone:g("ep"),nid:g("eid"),sup:g("es"),site:g("el"),img:""};
+ if(!e.name||!e.code)return toast("الاسم والكود مطلوبان");
+ const f=$("ei").files[0],fin=()=>{DB.emps=DB.emps.filter(x=>x.code!==e.code);DB.emps.push(e);save();tab(1);toast("تم الحفظ")};
+ if(!f)return fin();
+ const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement("canvas"),k=Math.min(1,700/im.width);c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);e.img=c.toDataURL("image/jpeg",.7);fin()};im.src=r.result};r.readAsDataURL(f)}
+function delEmp(k){if(confirm("حذف الموظف؟")){DB.emps.splice(k,1);save();tab(1)}}
+async function pdf(){
+ try{const cv=await html2canvas($("report"),{scale:2,backgroundColor:"#fff"}),{jsPDF}=window.jspdf,d=new jsPDF("p","mm","a4"),w=190,h=cv.height*w/cv.width;
+  d.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",10,10,w,Math.min(h,277));d.save("tulip-report.pdf");toast("تم تجهيز الملف")}
+ catch(e){toast("استخدم زر الطباعة ثم احفظ كـ PDF");window.print()}}
+</script>
+<style media="print">body>*:not(#room){display:none!important}.top,.tabs,.card,.toast{display:none!important}#room{display:block!important}</style>
+</body>
+</html>
